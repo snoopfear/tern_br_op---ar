@@ -48,11 +48,17 @@ def send_transaction(web3, chain_id, to_address, data):
 
         receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
         print(f"Transaction {tx_hash.hex()} confirmed in block {receipt['blockNumber']}")
+   
+     # Увеличиваем счетчик успешных транзакций
+        successful_transactions += 1
+
     except Exception as e:
         print(f"Error sending transaction: {str(e)}")
 
 # Основной цикл чередования транзакций
-for i in range(15000):
+for i in range(10000):
+    print(f"\n--- Iteration {i+1} ---")
+
     # 1. Отправка транзакции в OP Sepolia
     send_transaction(
         web3=web3_op,
@@ -76,3 +82,5 @@ for i in range(15000):
     wait_time = random.randint(2, 5)
     print(f"Waiting for {wait_time} seconds before the next iteration...")
     time.sleep(wait_time)
+
+    print(f"\nTotal successful transactions so far: {successful_transactions}\n")
