@@ -19,8 +19,12 @@ if not web3_arb.is_connected():
 sender_address = "0x92Eb2fc672C74df59F110004818Ac907f0208594"
 private_key = "0xYourPrivateKeyHere"  # Укажите ваш приватный ключ
 
+# Инициализация счетчика транзакций
+successful_transactions = 0
+
 # Функция для отправки транзакции
 def send_transaction(web3, chain_id, to_address, data):
+    global successful_transactions  # Используем глобальный счетчик
     try:
         nonce = web3.eth.get_transaction_count(sender_address)
         print(f"Using nonce: {nonce} on chain ID {chain_id}")
@@ -48,8 +52,8 @@ def send_transaction(web3, chain_id, to_address, data):
 
         receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
         print(f"Transaction {tx_hash.hex()} confirmed in block {receipt['blockNumber']}")
-   
-     # Увеличиваем счетчик успешных транзакций
+
+        # Увеличиваем счетчик успешных транзакций
         successful_transactions += 1
 
     except Exception as e:
